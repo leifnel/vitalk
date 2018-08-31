@@ -1,0 +1,889 @@
+Indirizzo,Estratto dati letti (max 8 byte),Descrizione
+0x00F7,32;,
+0x00F8,32;,// ID dispositivo
+0x00F9,203;,"// """""""""""""""""""""""""""""
+0x00FA,0;,
+0x00FB,43;,
+0x00FC,0;,
+0x00FD,0;,
+0x00FE,1;,
+0x00FF,20;255;255;255;255;255;255;255;,
+0x0800,224;0;,// temperatura esterna / 10
+0x0802,90;1;,// temperatura caldaia / 10
+0x0804,18;1;,// temperatura comfort (acqua in uscita da scambiatore) / 10
+0x0806,17;1;,// temperatura erogazione acs / 10
+0x0808,144;1;,// temperatura fumi / 10
+0x080A,194;0;,"// temperatura... boh! (sarebbe ritorno? oppure ricircolo? oscilla intorno alla temp ambiente, segue in modo inverso il funzionamento della caldaia, va a 127 con degrado logaritmico al riavvio) / 10"
+0x080C,200;0;,// temperatura... fissa! (sarebbe mandata? non usata su Vitosolar F-200?) / 10
+0x080E,224;0;,// temperatura esterna smorzata / 10
+0x0810,90;1;,// temperatura caldaia smorzata / 10
+0x0812,18;1;,// temperatura comfort (acqua in uscita da scambiatore) smorzata / 10
+0x0814,17;1;,// temperatura erogazione acs smorzata / 10
+0x0816,144;1;,// temperatura fumi smorzata / 10
+0x0818,194;0;,// temperatura... boh! smorzata / 10
+0x081A,200;0;255;255;255;255;255;255;,// temperatura... fissa! smorzata / 10
+0x082A,7;1;,// temperatura esterna / 10 - simmetrica rispetto a 24.35
+0x082C,169;0;,// temperatura caldaia / 10 - simmetrica rispetto a 25.75
+0x082E,233;2;,// temperatura comfort (acqua in uscita da scambiatore) / 10 - simmetrica rispetto a 50.95
+0x0830,234;2;,// temperatura erogazione acs / 10 - simmetrica rispetto a 50.95
+0x0832,156;0;,// temperatura fumi / 10 - simmetrica rispetto a 27.8
+0x0834,43;3;,// temperatura... boh! / 10 - simmetrica rispetto a 50.25
+0x0836,255;3;,// temperatura... fissa! / 10 - simmetrica rispetto a 61.15
+0x0838,0;0;,
+0x083A,0;,"// (presumibilmente sensore temp. esterna, se non qua, sarà in zona...)"
+0x083B,0;,"// stato sensore temp. caldaia (0 = ok, 2 = aperto, 1 = corto (?))"
+0x083C,0;,"// stato sensore temp. comfort (uscita scambiatore) (0 = ok, 2 = aperto, 1 = corto (?))"
+0x083D,0;,"// stato sensore temp. erogazione acs (0 = ok, 2 = aperto, 1 = corto (?))"
+0x083E,0;,"// stato sensore temp. fumi (0 = ok, 2 = aperto, 1 = corto (?))"
+0x083F,0;,// (presumibilmente sensore temp. ritorno...)
+0x0840,2;,"// (stato sensore temp. mandata [2] predisp. vitotronic ?) (0 = ok, 2 = aperto, 1 = corto (?))"
+0x0841,0;,
+0x0842,0;,
+0x0843,0;255;255;255;255;255;255;,"// byte 1 - blocco bruciatore (0 = ok, 1 = blocco (?))"
+0x084A,1;,
+0x084B,0;255;255;,
+0x084E,82;58;0;0;,// contatore di tempo (08:54:18 -> tempo dall'ultimo autotest?)
+0x0852,88;49;0;0;255;255;255;255;,// contatore di tempo (15:14:29 -> tempo dall'ultimo cambio di stato della pompa di circolazione interna (?!?))
+0x086E,206;242;31;0;,"// contatore di tempo (21:45:33 -> tempo dall'ultimo avvio del sistema... mia massa... dopo errori era basso, tempo da ultimo errore?)"
+0x0872,207;242;31;0;255;255;255;255;,// contatore di tempo (pare uguale a 0x086E qui sopra))
+0x0882,0;,"// (flussostato con un ritardo di 10-15s? sembra una ""media"" degli stati del flussostato!)"
+0x0883,0;,"// flussostato (0=nessun flusso acs, 1=flusso acs)"
+0x0884,1;255;,
+0x0886,234;67;37;0;,// secondi funzionamento bruciatore
+0x088A,203;15;0;0;,// numero accensioni bruciatore
+0x088E,32;20;16;32;1;19;7;37;,// data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)
+0x0896,200;0;,"// (da viTalk: temperatura ambiente, se presente comando remoto?)"
+0x0898,200;0;,// (probabilmente come 0x0896 per secondo comando remoto?)
+0x089A,200;0;,// (probabilmente come 0x0896 per terzo comando remoto?)
+0x089C,3;,// (stato/presenza/tipo primo comando remoto?)
+0x089D,3;,// (stato/presenza/tipo secondo comando remoto?)
+0x089E,3;255;255;255;255;255;255;255;,// (stato/presenza/tipo terzo comando remoto?)
+0x08A7,234;67;37;0;,// secondi funzionamento bruciatore
+0x08AB,0;0;0;0;255;255;255;255;,
+0x08C0,55;52;51;54;53;51;57;,
+0x08C7,51;50;55;51;56;57;49;48;,
+0x08D0,201;255;255;255;255;255;255;255;,
+0x08E0,53;49;55;49;54;53;55;255;,
+0x08ED,255;3;,"// (byte 1 ciclicamente riparte da 0 per salire velocemente a step sempre più grandi, tipo uno shl...)"
+0x08EF,1;,
+0x08F0,167;169;255;255;,
+0x08F4,167;169;255;255;255;255;255;255;,
+0x0900,95;255;255;255;255;255;255;255;,// (byte 1 tra due accensioni passato da 95 a 87...)
+0x0909,0;0;,
+0x090B,20;0;,
+0x090D,160;160;160;160;160;160;160;160;,
+0x0920,0;0;0;0;47;0;1;1;,"// (byte 5 ore accensione? xò da prove, da 9.33 a 15.24 segna già 6...)"
+0x0952,224;0;,// temperatura esterna (???) / 10
+0x0954,0;255;255;255;255;255;255;255;,
+0x0980,1;1;1;0;0;0;0;0;,"// byte 1 - stato CR1, byte 2 - stato CR2, byte 3 - stato CR3 (?)"
+0x0989,22;2;,"// (minuti *1 (in calo) da qualche evento?) (sembra ""puntare"" alle 22:00... minuti a fine ciclo riscaldamento CR1?)"
+0x098B,142;2;,"// (minuti *2 (in calo) da qualche evento?) (sembra ""puntare"" a mezzanotte... minuti a fine ciclo riscaldamento CR2?)"
+0x098D,22;2;,"// (minuti *3 (in calo) da qualche evento?) (sembra ""puntare"" alle 22:00... minuti a fine ciclo riscaldamento CR3?)"
+0x098F,46;8;,"// (minuti *4 (in calo) da qualche evento?) (sembra ""puntare"" a mezzanotte di due gg dopo...)"
+0x0991,46;8;,"// (minuti *4 (in calo) da qualche evento?) (sembra ""puntare"" a mezzanotte di due gg dopo...)"
+0x0993,46;8;,"// (minuti *4 (in calo) da qualche evento?) (sembra ""puntare"" a mezzanotte di due gg dopo...)"
+0x0995,46;8;,"// (minuti *4 (in calo) da qualche evento?) (sembra ""puntare"" a mezzanotte di due gg dopo...)"
+0x0997,46;8;,"// (minuti *4 (in calo) da qualche evento?) (sembra ""puntare"" a mezzanotte di due gg dopo...)"
+0x0999,46;8;255;255;255;255;255;255;,"// (minuti *4 (in calo) da qualche evento?) (sembra ""puntare"" a mezzanotte di due gg dopo...)"
+0x0A0C,65;255;255;255;,
+0x0A10,3;,"// valvola deviatrice acqua calda - riscaldamento (1=riscaldamento, 2=nel mezzo, 3=acqua calda)"
+0x0A11,59;255;255;255;255;255;255;255;,"// byte 1 - con valvola deviatrice = 3 -> 59, con valvola deviatrice = 1 -> 60"
+0x0A20,0;0;39;7;18;32;33;48;,"// (timer in BCD da byte 3: SS;NN;HH+byte 2;DD+byte 2;DoW;MM+byte 2;YY...) (byte 2 va a 64 ogni tanto, sembra dal secondo 40 al 59...) (byte 14-15 seguono secondi ongi 4 secondi...)"
+0x0A30,0;,
+0x0A31,0;,
+0x0A32,0;,
+0x0A33,0;,
+0x0A34,0;,
+0x0A35,0;,
+0x0A36,0;,
+0x0A37,0;,
+0x0A38,0;,
+0x0A39,0;,
+0x0A3A,0;,
+0x0A3B,0;,// (da viTalk: velocità di riferimento pompa circuito di riscaldamento?)
+0x0A3C,0;,// (da viTalk: velocità pompa di circolazione interna?)
+0x0A3D,0;255;255;,
+0x0A40,0;0;0;0;,
+0x0A44,32;113;3;2;,"// (con miscelatore ho valori, senza ho zeri...)"
+0x0A48,0;0;0;0;,
+0x0A4C,0;0;0;0;,
+0x0A50,0;0;0;0;,
+0x0A54,0;0;0;0;,
+0x0A58,32;255;0;0;,
+0x0A5C,0;0;0;0;,
+0x0A60,0;0;0;0;,
+0x0A64,0;0;0;0;,
+0x0A68,32;99;1;3;,
+0x0A6C,0;0;0;0;,
+0x0A70,0;0;0;0;,
+0x0A74,0;0;0;0;,
+0x0A78,0;0;0;0;,
+0x0A7C,0;0;0;0;,
+0x0A80,0;,
+0x0A81,0;,
+0x0A82,0;,// (guasto generale?)
+0x0A83,0;,
+0x0A84,0;,
+0x0A85,0;,
+0x0A86,0;0;,
+0x0A88,0;0;,
+0x0A8A,0;,
+0x0A8B,0;255;255;255;255;,
+0x0A90,0;,
+0x0A91,0;,
+0x0A92,0;,
+0x0A93,0;0;,
+0x0A95,0;255;255;255;255;255;255;255;,
+0x0AA0,0;,
+0x0AA1,0;255;255;255;255;255;255;255;,
+0x0B00,0;,
+0x0B01,0;,
+0x0B02,0;0;0;0;255;255;255;255;,
+0x0F00,1;255;255;255;255;255;255;255;,
+0x1000,128;19;16;145;5;16;0;64;,
+0x1010,55;56;51;55;56;57;49;255;,
+0x1020,0;0;255;255;255;0;0;0;,
+0x1030,100;155;30;225;3;252;82;173;,"// (byte 3 max potenza riscaldamento?) (byte 4 complementa byte 3 a 255, idem byte 1 e 2, byte 5 e 6... checksum?)"
+0x1040,2;61;35;0;0;0;0;0;,
+0x1050,0;2;62;2;65;30;65;30;,
+0x1060,16;8;30;4;5;4;30;20;,
+0x1070,5;5;20;24;81;40;60;0;,
+0x1080,4;25;30;40;55;0;3;8;,
+0x1090,0;20;26;33;42;51;61;70;,
+0x10A0,74;50;36;240;74;50;0;0;,
+0x10B0,74;50;36;240;74;50;0;0;,
+0x10C0,74;50;36;240;74;50;0;0;,
+0x10D0,65;30;0;1;1;0;1;1;,
+0x10E0,255;255;255;255;255;255;255;255;,
+0x10F0,255;255;255;255;255;255;255;255;,
+0x1100,2;61;255;255;255;255;255;255;,
+0x2000,48;176;255;255;255;255;255;255;,"// programma orario riscaldamento lunedì (4 coppie = 4 fasce orarie, inizio + fine, ogni byte = ora << 3 || min div 10, 255 = fascia non programmata) (CR1)"
+0x2008,48;176;255;255;255;255;255;255;,// programma orario riscaldamento martedì
+0x2010,48;176;255;255;255;255;255;255;,// programma orario riscaldamento mercoledì
+0x2018,48;176;255;255;255;255;255;255;,// programma orario riscaldamento giovedì
+0x2020,48;176;255;255;255;255;255;255;,// programma orario riscaldamento venerdì
+0x2028,48;176;255;255;255;255;255;255;,// programma orario riscaldamento sabato
+0x2030,48;176;255;255;255;255;255;255;,// programma orario riscaldamento domenica
+0x2100,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 1) lunedì (CR1)
+0x2108,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 1) martedì
+0x2110,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 1) mercoledì
+0x2118,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 1) giovedì
+0x2120,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 1) venerdì
+0x2128,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 1) sabato
+0x2130,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 1) domenica
+0x2200,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 2) lunedì (CR1)
+0x2208,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 2) martedì
+0x2210,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 2) mercoledì
+0x2218,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 2) giovedì
+0x2220,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 2) venerdì
+0x2228,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 2) sabato
+0x2230,255;255;255;255;255;255;255;255;,// programma orario (di qualcosa 2) domenica
+0x2301,4;,"// (modalità? 0=solo acs, 1=funz. continuamente ridotto, 2=funz. continuamente normale, 3/4=acs e riscaldamento, 5=programma spegnimento) (CR1)"
+0x2302,0;,// modalità risparmio energetico (CR1)
+0x2303,0;255;,// modalità party (CR1)
+0x2305,20;,"// (probabilmente non usato in Vitosolar 200-F, era pendenza curva)"
+0x2306,20;,// set temperatura ambiente (CR1)
+0x2307,3;,// set temperatura ambiente ridottta (CR1)
+0x2308,20;,// set temperatura ambiente party (CR1)
+0x2309,25;112;1;1;4;0;0;0;,// (programma orario vacanza CR1?)
+0x2311,25;112;1;1;4;0;0;0;,
+0x2321,0;,
+0x2322,20;,// (set temperatura ambiente corrente / 10) (CR1)
+0x2323,2;255;255;255;255;255;255;255;,"// modalità operativa (0=programma spegnimento, 1=solo acs, 2=acs e riscaldamento [3=funz. continuamente ridotto, 4=funz. continuamente normale]) (CR1)"
+0x2500,5;3;0;0;0;0;0;0;,"// (byte 1: da viTalk, modalità operativa (ncora?!), byte 7-8 temperatura, pari a 0x2546; byte 13-14 temperatura, pari a 0x2322)"
+0x2520,0;,
+0x2521,5;255;255;,
+0x2524,0;,
+0x2525,0;0;0;0;255;255;255;255;,
+0x252F,0;0;0;0;,// (timer conto alla rovescia... da quando? per cosa?)
+0x2533,0;255;,
+0x2535,2;255;255;255;255;,
+0x253A,0;255;255;255;255;255;255;255;,"// (byte 1 - set temperatura ambiente attivo - mah, mia massa!)"
+0x2544,0;0;,// set temperatura mandata riscaldamento / 10 (CR1)
+0x2546,0;0;,// set temperatura mandata caldaia / 10 (CR1)
+0x2548,0;,
+0x2549,0;255;255;255;255;255;255;255;,
+0x27A0,0;,
+0x27A1,0;,
+0x27A2,2;,
+0x27A3,2;,
+0x27A4,0;,
+0x27A5,5;,
+0x27A6,36;,
+0x27A7,0;,
+0x27A8,1;,
+0x27A9,7;255;255;255;255;255;255;,
+0x27B0,0;255;,
+0x27B2,8;255;255;,
+0x27B5,0;255;255;255;255;255;255;255;,
+0x27C5,20;,// (temperatura min mandata?) (CR1)
+0x27C6,50;255;255;255;255;255;255;255;,// (temperatura max mandata?) (CR1)
+0x27D3,6;,// inclinazione curva riscaldamento / 10 (CR1)
+0x27D4,0;,// scostamento curva riscaldamento (CR1)
+0x27D5,0;,
+0x27D6,0;,
+0x27D7,0;,
+0x27D8,0;255;255;255;255;255;255;255;,
+0x27E1,1;,
+0x27E2,50;255;255;,
+0x27E5,0;,
+0x27E6,65;,"// (da viTalk, potenza max pompa circuito di riscaldamento a velocità variabile) (CR1)"
+0x27E7,30;,"// (da viTalk, potenza min pompa circuito di riscaldamento a velocità variabile) (CR1)"
+0x27E8,1;,
+0x27E9,45;255;255;255;255;255;255;255;,
+0x27F1,0;,
+0x27F2,8;255;255;,
+0x27F5,12;,
+0x27F6,25;,
+0x27F7,25;,
+0x27F8,251;,
+0x27F9,242;,
+0x27FA,20;,
+0x27FB,60;255;255;255;255;255;255;255;,
+0x2900,90;1;,// temperatura mandata riscaldamento / 10 (CR1)
+0x2902,0;0;,"// temperatura ritorno, se presente sensore / 10 (CR1)"
+0x2904,0;,
+0x2905,6;,
+0x2906,0;255;255;255;255;255;255;255;,// pompa riscaldamento (CR1)
+0x3000,48;192;255;255;255;255;255;255;,"// programma orario riscaldamento lunedì (4 coppie = 4 fasce orarie, inizio + fine, ogni byte = ora << 3 || min div 10, 255 = fascia non programmata) (CR2)"
+0x3008,48;192;255;255;255;255;255;255;,// programma orario riscaldamento martedì
+0x3010,48;192;255;255;255;255;255;255;,// programma orario riscaldamento mercoledì
+0x3018,48;192;255;255;255;255;255;255;,// programma orario riscaldamento giovedì
+0x3020,48;192;255;255;255;255;255;255;,// programma orario riscaldamento venerdì
+0x3028,48;192;255;255;255;255;255;255;,// programma orario riscaldamento sabato
+0x3030,48;192;255;255;255;255;255;255;,// programma orario riscaldamento domenica
+0x3100,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) lunedì (CR2)
+0x3108,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) martedì
+0x3110,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) mercoledì
+0x3118,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) giovedì
+0x3120,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) venerdì
+0x3128,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) sabato
+0x3130,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) domenica
+0x3200,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) lunedì (CR2)
+0x3208,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) martedì
+0x3210,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) mercoledì
+0x3218,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) giovedì
+0x3220,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) venerdì
+0x3228,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) sabato
+0x3230,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) domenica
+0x3301,0;,"// (modalità? 0=solo acs, 1=funz. continuamente ridotto, 2=funz. continuamente normale, 3/4=acs e riscaldamento, 5=programma spegnimento) (CR2)"
+0x3302,0;,// modalità risparmio energetico (CR2)
+0x3303,0;255;,// modalità party (CR2)
+0x3305,20;,"// (probabilmente non usato in Vitosolar 200-F, era pendenza curva)"
+0x3306,20;,// set temperatura ambiente (CR2)
+0x3307,3;,// set temperatura ambiente ridottta (CR2)
+0x3308,20;,// set temperatura ambiente party (CR2)
+0x3309,25;112;1;1;4;0;0;0;,// (programma orario vacanza CR2?)
+0x3311,25;112;1;1;4;0;0;0;,
+0x3321,0;,
+0x3322,20;,// (set temperatura ambiente corrente / 10) (CR2)
+0x3323,1;255;255;255;255;255;255;255;,"// modalità operativa (0=programma spegnimento, 1=solo acs, 2=acs e riscaldamento [3=funz. continuamente ridotto, 4=funz. continuamente normale]) (CR2)"
+0x3500,2;0;0;0;0;0;0;0;,"// (byte 1: da viTalk, modalità operativa (ncora?!), byte 7-8 temperatura, pari a 0x3546; byte 13-14 temperatura, pari a 0x3322)"
+0x3520,2;,
+0x3521,2;255;255;,
+0x3524,33;,
+0x3525,0;0;0;0;255;255;255;255;,
+0x352F,0;0;0;0;,// (timer conto alla rovescia... da quando? per cosa?)
+0x3533,0;255;,
+0x3535,2;255;255;255;255;,
+0x353A,0;255;255;255;255;255;255;255;,"// (byte 1 - set temperatura ambiente attivo - mah, mia massa!)"
+0x3544,0;0;,// set temperatura mandata riscaldamento / 10 (CR2)
+0x3546,0;0;,// set temperatura mandata caldaia / 10 (CR2)
+0x3548,0;,
+0x3549,0;255;255;255;255;255;255;255;,
+0x37A0,0;,
+0x37A1,0;,
+0x37A2,2;,
+0x37A3,247;,
+0x37A4,1;,
+0x37A5,6;,
+0x37A6,36;,
+0x37A7,0;,
+0x37A8,0;,
+0x37A9,7;255;255;255;255;255;255;,
+0x37B0,0;255;,
+0x37B2,8;255;255;,
+0x37B5,0;255;255;255;255;255;255;255;,
+0x37C5,20;,// (temperatura min mandata?) (CR2)
+0x37C6,40;255;255;255;255;255;255;255;,// (temperatura max mandata?) (CR2)
+0x37D3,4;,// inclinazione curva riscaldamento / 10 (CR2)
+0x37D4,4;,// scostamento curva riscaldamento (CR2)
+0x37D5,0;,
+0x37D6,0;,
+0x37D7,0;,
+0x37D8,0;255;255;255;255;255;255;255;,
+0x37E1,1;,
+0x37E2,50;255;255;,
+0x37E5,0;,
+0x37E6,65;,"// (da viTalk, potenza max pompa circuito di riscaldamento a velocità variabile) (CR2)"
+0x37E7,30;,"// (da viTalk, potenza min pompa circuito di riscaldamento a velocità variabile) (CR2)"
+0x37E8,1;,
+0x37E9,45;255;255;255;255;255;255;255;,
+0x37F1,0;,
+0x37F2,8;255;255;,
+0x37F5,12;,
+0x37F6,25;,
+0x37F7,25;,
+0x37F8,251;,
+0x37F9,242;,
+0x37FA,10;,
+0x37FB,30;255;255;255;255;255;255;255;,
+0x3900,240;0;,// temperatura mandata riscaldamento / 10 (CR2)
+0x3902,0;0;,"// temperatura ritorno, se presente sensore / 10 (CR2)"
+0x3904,0;,// (senza miscelatore valore 6...)
+0x3905,0;,// (senza miscelatore valore 6...)
+0x3906,0;255;255;255;255;255;255;255;,// pompa riscaldamento (CR2)
+0x4000,48;176;255;255;255;255;255;255;,"// programma orario riscaldamento lunedì (4 coppie = 4 fasce orarie, inizio + fine, ogni byte = ora << 3 || min div 10, 255 = fascia non programmata) (CR3)"
+0x4008,48;176;255;255;255;255;255;255;,// programma orario riscaldamento martedì
+0x4010,48;176;255;255;255;255;255;255;,// programma orario riscaldamento mercoledì
+0x4018,48;176;255;255;255;255;255;255;,// programma orario riscaldamento giovedì
+0x4020,48;176;255;255;255;255;255;255;,// programma orario riscaldamento venerdì
+0x4028,48;176;255;255;255;255;255;255;,// programma orario riscaldamento sabato
+0x4030,48;176;255;255;255;255;255;255;,// programma orario riscaldamento domenica
+0x4100,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) lunedì (CR3)
+0x4108,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) martedì
+0x4110,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) mercoledì
+0x4118,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) giovedì
+0x4120,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) venerdì
+0x4128,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) sabato
+0x4130,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 1) domenica
+0x4200,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) lunedì (CR3)
+0x4208,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) martedì
+0x4210,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) mercoledì
+0x4218,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) giovedì
+0x4220,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) venerdì
+0x4228,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) sabato
+0x4230,43;176;255;255;255;255;255;255;,// programma orario (di qualcosa 2) domenica
+0x4301,4;,"// (modalità? 0=solo acs, 1=funz. continuamente ridotto, 2=funz. continuamente normale, 3/4=acs e riscaldamento, 5=programma spegnimento) (CR3)"
+0x4302,0;,// modalità risparmio energetico (CR3)
+0x4303,0;255;,// modalità party (CR3)
+0x4305,20;,"// (probabilmente non usato in Vitosolar 200-F, era pendenza curva)"
+0x4306,20;,// set temperatura ambiente (CR3)
+0x4307,3;,// set temperatura ambiente ridottta (CR3)
+0x4308,20;,// set temperatura ambiente party (CR3)
+0x4309,25;112;1;1;4;0;0;0;,// (programma orario vacanza CR3?)
+0x4311,25;112;1;1;4;0;0;0;,
+0x4321,0;,
+0x4322,20;,// (set temperatura ambiente corrente / 10) (CR3)
+0x4323,2;255;255;255;255;255;255;255;,"// modalità operativa (0=programma spegnimento, 1=solo acs, 2=acs e riscaldamento [3=funz. continuamente ridotto, 4=funz. continuamente normale]) (CR3)"
+0x4500,5;3;0;0;0;0;0;0;,"// (byte 1: da viTalk, modalità operativa (ncora?!), byte 7-8 temperatura, pari a 0x4546; byte 13-14 temperatura, pari a 0x4322)"
+0x4520,0;,
+0x4521,5;255;255;,
+0x4524,0;,
+0x4525,0;0;0;0;255;255;255;255;,
+0x452F,0;0;0;0;,// (timer conto alla rovescia... da quando? per cosa?)
+0x4533,0;255;,
+0x4535,2;255;255;255;255;,
+0x453A,0;255;255;255;255;255;255;255;,"// (byte 1 - set temperatura ambiente attivo - mah, mia massa!)"
+0x4544,0;0;,// set temperatura mandata riscaldamento / 10 (CR3)
+0x4546,0;0;,// set temperatura mandata caldaia / 10 (CR3)
+0x4548,0;,
+0x4549,0;255;255;255;255;255;255;255;,
+0x47A0,0;,
+0x47A1,0;,
+0x47A2,2;,
+0x47A3,2;,
+0x47A4,0;,
+0x47A5,5;,
+0x47A6,36;,
+0x47A7,0;,
+0x47A8,1;,
+0x47A9,7;255;255;255;255;255;255;,
+0x47B0,0;255;,
+0x47B2,8;255;255;,
+0x47B5,0;255;255;255;255;255;255;255;,
+0x47C5,20;,// (temperatura min mandata?) (CR3)
+0x47C6,74;255;255;255;255;255;255;255;,// (temperatura max mandata?) (CR3)
+0x47D3,14;,// inclinazione curva riscaldamento / 10 (CR3)
+0x47D4,0;,// scostamento curva riscaldamento (CR3)
+0x47D5,0;,
+0x47D6,0;,
+0x47D7,0;,
+0x47D8,0;255;255;255;255;255;255;255;,
+0x47E1,1;,
+0x47E2,50;255;255;,
+0x47E5,0;,
+0x47E6,65;,"// (da viTalk, potenza max pompa circuito di riscaldamento a velocità variabile) (CR3)"
+0x47E7,30;,"// (da viTalk, potenza min pompa circuito di riscaldamento a velocità variabile) (CR3)"
+0x47E8,1;,
+0x47E9,45;255;255;255;255;255;255;255;,
+0x47F1,0;,
+0x47F2,8;255;255;,
+0x47F5,12;,
+0x47F6,25;,
+0x47F7,25;,
+0x47F8,251;,
+0x47F9,242;,
+0x47FA,20;,
+0x47FB,60;255;255;255;255;255;255;255;,
+0x4900,0;0;,// temperatura mandata riscaldamento / 10 (CR3)
+0x4902,0;0;,"// temperatura ritorno, se presente sensore / 10 (CR3)"
+0x4904,6;,
+0x4905,6;,
+0x4906,0;255;255;255;255;255;255;255;,// pompa riscaldamento (CR3)
+0x5300,74;255;255;255;255;255;255;255;,
+0x5512,0;,
+0x5513,0;255;,
+0x5515,0;255;255;255;255;255;255;255;,
+0x5523,185;0;,// (dopo riavvio valore uguale a 0x5525 e 0x5527)
+0x5525,224;0;,// temperatura esterna smorzata ( <> 0x080E !!!) / 10
+0x5527,197;0;255;255;255;255;255;255;,// temperatura esterna calcolata / 10
+0x5530,0;,
+0x5531,0;,
+0x5532,4;0;0;0;0;0;0;0;,
+0x5556,1;0;0;0;,"// (byte 2-3 sembrano ripetere 0x3546, come anche i due byte qui sotto 0x555A)"
+0x555A,50;0;,// set temperatura caldaia effettiva / 10
+0x555C,0;0;255;255;255;255;255;255;,
+0x55CE,0;,
+0x55CF,0;,
+0x55D0,64;0;0;,"// (byte 2 va a 66 durante prova attuatori, o cmq in mod. service, altrimenti 0; byte 3 passato da 77 a 51 dopo cambio max potenza risc. da 30 a 5, stesso delta... con pot. al minimo = 51, con bruciatore spento = 0)"
+0x55D3,0;169;156;0;0;1;0;0;,"// (byte 3-4 temperatura 0x0832 ???) (byte 2 sembra 0x082C, ma 1 solo byte?!) (byte 6 - bitmask: bit0 = blocco (de che?!) - bit1 = bruciatore)"
+0x55DC,0;,// (cambiato da 24 a 18 durante funzionamento riscaldamento e cambio potenza)
+0x55DD,1;,"// (valori ""medi"" durante funzionamento riscaldamento e cambio potenza)"
+0x55DE,0;,"// (valori ""medi"" durante funzionamento riscaldamento e cambio potenza)"
+0x55DF,0;,"// (valori ""medi"" durante funzionamento riscaldamento e cambio potenza)"
+0x55E0,1;0;0;0;0;0;0;0;,"// (valori ""medi"" durante funzionamento riscaldamento e cambio potenza) (byte 2-3 e 11-12 sembrano ripetere 0x555A)"
+0x55FA,152;,
+0x55FB,17;1;,"// (cala di 1 (o di 2) quando si inizia uso ACS, e poi resta lì... arrivati a 0 s-ciopa tuto?!)"
+0x55FD,0;,
+0x55FE,0;,
+0x55FF,0;255;255;255;255;255;255;255;,
+0x5704,1;255;,"// (settaggi caldaia, pare... ma allora 8832 non lo sono...)"
+0x5706,82;,
+0x5707,1;,
+0x5708,60;255;255;255;255;,
+0x570D,0;,
+0x570E,0;255;,
+0x5710,20;,
+0x5711,0;255;,
+0x5713,1;,
+0x5714,1;,
+0x5715,1;255;255;255;255;255;255;255;,
+0x571E,255;255;255;,
+0x5721,0;255;,
+0x5723,0;,
+0x5724,0;,
+0x5725,0;,
+0x5726,0;255;,
+0x5728,0;,
+0x5729,0;255;255;255;255;,
+0x572E,0;,
+0x572F,0;,
+0x5730,0;,
+0x5731,50;255;255;255;,
+0x5735,0;255;255;,
+0x5738,0;255;255;255;255;255;255;255;,
+0x5740,0;,"// (valori ""medi"" durante funzionamento riscaldamento e cambio potenza)"
+0x5741,0;,"// (valori ""medi"" durante funzionamento riscaldamento e cambio potenza)"
+0x5742,3;,"// (valori ""medi"" durante funzionamento riscaldamento e cambio potenza)"
+0x5743,84;,"// (questo, rispetto ad altre letture, ha delle piccole variazioni)"
+0x5744,8;,"// (questo, rispetto ad altre letture, ha delle piccole variazioni)"
+0x5745,95;,"// (questo, rispetto ad altre letture, ha delle piccole variazioni)"
+0x5746,152;,"// (questo, rispetto ad altre letture, ha delle variazioni più sensibili)"
+0x5747,127;,
+0x5748,55;255;255;255;255;255;255;255;,"// (byte 1, rispetto ad altre letture, ha delle variazioni medie)"
+0x6300,45;,// set temperatura acs
+0x6301,0;255;255;255;255;255;255;255;,
+0x6500,50;0;,// set temperatura acs / 10
+0x6502,0;0;255;255;255;255;255;255;,
+0x650A,0;255;,// (andato a 1 e a 2 durante uso ACS - analizzare ad alta frequenza)
+0x650C,0;,"// (spesso a 1 pari a 650A, tranne quando questo è andato a 2) (flussostato? pompa circ. interna per prod. ACS?)"
+0x650D,0;0;0;0;255;,// (andato a 5 quando 650A era a 2)
+0x6512,0;,// (andato a 2 un colpo... pollare frequentemente e vedere...)
+0x6513,0;0;,"// pompa di circolazione interna (solo ACS): byte 1 - ON/OFF, byte 2 - potenza"
+0x6515,0;0;,"// (pompa di circolazione interna (solo riscaldamento): byte 1 - ON/OFF, byte 2 - potenza) (pare di no... forse solo per CR1 non miscelato?)"
+0x6517,0;0;255;255;255;255;255;255;,"// (andato a 1 + 100 un colpo, con uso ACS... sempre legato alla pompa? o al bruciatore?)"
+0x6550,0;,// ---------- NO VARIAZIONI solare e uso ACS ----------
+0x6551,1;,"// (questo si prolunga oltre rispetto a 0x6552, ma talvolta resta fisso a 1... sembra finchè accumulo basso > 30°, ma boh...)"
+0x6552,0;,// pompa circuito solare (questo segue di netto la temp. collettori)
+0x6553,0;255;255;255;255;255;255;255;,// ---------- NO VARIAZIONI solare e uso ACS ----------
+0x655C,187;117;79;0;,// totale W energia solare prodotti
+0x6560,87;20;0;0;,// totale KW energia solare prodotti
+0x6564,54;1;,// temperatura collettore solare / 10
+0x6566,129;1;,// temperatura accumulo solare in basso / 10
+0x6568,161;4;,// ore funzionamento pompa solare
+0x656A,3;,// ---------- NO VARIAZIONI solare e uso ACS ----------
+0x656B,1;0;0;0;0;0;,// ---------- NO VARIAZIONI solare e uso ACS ----------
+0x6571,2;0;0;0;0;0;0;255;,// ---------- NO VARIAZIONI solare e uso ACS ----------
+0x6585,0;255;255;255;255;255;255;255;,"// ---------- NO VARIAZIONI solare e uso ACS ---------- (durante prod. solare, visto anche 127;255;127;0;0;255...)"
+0x65E0,100;5;8;40;0;0;0;0;,// (sembrerebbero settaggi...)
+0x6756,0;255;,"// N.B. indirizzi 0x67** = codifica ""acqua calda"": byte 1 - non modificare, da manuale (0 = acs da 10 a 60 gradi, 1 = acs da 10 a oltre 60 gradi [343-F])"
+0x6758,0;,// (non presente - flag funzione supplementare produzione acs [343-F])
+0x6759,0;255;,"// (non presente - riscaldamento bollitore, 0 = -2.5/+2.5K, 1-10 = -1/-10K [343-F])"
+0x675B,0;255;255;,
+0x675E,0;,// (non presente - funzione relative al carico bollitore da segnale esterno [343-F])
+0x675F,0;,// (non presente - funzione relative al carico bollitore da segnale esterno [343-F])
+0x6760,20;255;,"// (non presente - max incremento temp. caldaia rispetto temp. acs, da 5 a 25 [343-F])"
+0x6762,2;,"// (non presente - tempo ritardo spegnimento pompa carico bollitore, da 0 a 15 min [343-F])"
+0x6763,0;255;,
+0x6765,3;255;,"// byte 1 - tipo valvola deviatrice (1 - Viessmann, 2 - Wilo, 3 - Grundfos)"
+0x6767,61;255;255;255;255;,"// byte 1 - non modificare, da manuale"
+0x676C,100;,// numero di giri pompa circ. interna con produzione acs in %
+0x676D,0;255;,
+0x676F,100;255;,// byte 1 - potenza max produzione acs in %
+0x6771,0;,// (non presente - parametri pompa di ricircolo [343-F])
+0x6772,0;,// (non presente - parametri pompa di ricircolo [343-F])
+0x6773,0;255;255;255;255;255;255;255;,// (non presente - parametri pompa di ricircolo [343-F])
+0x6900,1;255;255;255;255;255;255;255;,
+0x6910,0;255;255;255;255;255;255;255;,
+0x7300,3;,
+0x7301,10;,
+0x7302,10;,
+0x7303,10;255;255;255;255;255;255;255;,
+0x7310,11;,
+0x7311,0;,
+0x7312,0;,
+0x7313,0;255;255;255;255;255;255;255;,
+0x7320,9;,// (si incrementa quando c'è un errore?)
+0x7321,0;,
+0x7322,0;,
+0x7323,0;,
+0x7324,4;,
+0x7325,111;255;255;255;255;255;255;255;,
+0x7330,4;0;,
+0x7332,0;0;,
+0x7334,0;0;,
+0x7336,0;0;255;255;255;255;255;255;,
+0x7340,33;,
+0x7341,0;,
+0x7342,0;,
+0x7343,0;255;255;255;255;255;255;255;,
+0x7360,0;11;72;0;101;0;105;0;,
+0x738A,11;20;67;0;105;0;114;0;,
+0x7500,0;,"// prova attuatori: 0 = normale, 1 = tutti attuatori spenti, 2 = carico minimo, 3 = carico massimo, 4 = circ. interno, 5 = valvola risc., 6 = valvola mezzavia, 7 = valvola acs, 40 = pompa CR2, 41 = miscel. aperto CR2, 42 = miscel. chiuso CR2, 11 = compl. int. H1, 196 = pompa solare, 199 = pompa carico boll. solare)"
+0x7501,55;0;255;255;255;255;,"// (byte 1... contatore riavvii?!? vedi 0xCFD0 (delta di 5... hmm, no, ora delta è 6...))"
+0x7507,0;32;20;16;24;6;2;51;,"// errore n.1 (più recente) - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x7510,0;32;20;16;24;6;2;51;,"// errore n.2 - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x7519,0;32;20;16;24;6;2;51;,"// errore n.3 - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x7522,0;32;20;16;24;6;2;51;,"// errore n.4 - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x752B,0;32;20;16;24;6;2;51;,"// errore n.5 - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x7534,0;32;20;16;24;6;2;51;,"// errore n.6 - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x753D,0;32;20;16;24;6;2;51;,"// errore n.7 - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x7546,0;32;20;16;24;6;2;51;,"// errore n.8 - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x754F,0;32;20;16;24;6;2;51;,"// errore n.9 - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x7558,0;32;20;16;24;6;2;51;,"// errore n.10 (più vecchio) - byte 1 codice, byte seguenti data (YY;YY;MM;DD;DoW;HH;NN;SS in BCD)"
+0x7561,0;0;0;0;0;0;0;0;,
+0x756C,0;0;0;0;,
+0x7570,0;0;0;0;,
+0x7574,0;0;0;0;255;255;255;255;,
+0x7580,0;255;255;255;255;255;255;255;,
+0x7590,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x7599,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75A2,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75AB,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75B4,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75BD,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75C6,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75CF,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75D8,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75E1,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75EA,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75F3,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x75FC,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x7605,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x760E,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x7617,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x7620,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x7629,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x7632,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x763B,0;32;20;16;24;6;2;51;,// (errori temporanei? cmq si cancellano insieme agli errori a 0x7507...)
+0x7650,35;,
+0x7651,5;,
+0x7652,51;,
+0x7653,61;,
+0x7654,1;255;,
+0x7656,35;61;2;1;255;255;255;255;,
+0x7660,0;0;,// (byte 1: stato pompa interna; byte 2: velocità pompa interna)
+0x7662,48;,
+0x7663,0;0;,// (byte 1: stato pompa CR1; byte 2: velocità pompa CR1)
+0x7665,0;0;,// (byte 1: stato pompa CR2; byte 2: velocità pompa CR2)
+0x7667,0;0;255;255;255;255;255;255;,// (byte 1: stato pompa CR3; byte 2: velocità pompa CR3)
+0x7670,0;0;0;0;0;0;0;0;,
+0x7680,0;0;,
+0x7682,0;0;,
+0x7684,0;0;,
+0x7686,0;0;255;255;255;255;255;255;,
+0x7700,4;,"// N.B. indirizzi 0x77** = codifica ""in generale"": tipologia di impianto"
+0x7701,1;255;255;255;255;255;255;255;,
+0x7732,0;,// presenza completamento AM1
+0x7733,1;,// funzione uscita A1 sul completamento AM1
+0x7734,0;,// funzione uscita A2 sul completamento AM1
+0x7735,0;,// presenza completamento EA1
+0x7736,0;,// funzione uscita 157 sul completamento EA1
+0x7737,0;255;255;,
+0x773A,0;,// funzione ingresso DE1 sul completamento EA1
+0x773B,0;,// funzione ingresso DE2 sul completamento EA1
+0x773C,0;,// funzione ingresso DE3 sul completamento EA1
+0x773D,5;,
+0x773E,0;,"// funzione segnale ""blocco esterno"""
+0x773F,0;255;255;255;255;255;255;255;,"// funzione segnale ""richiesta esterna"""
+0x7750,3;,"// tipo regolazione (1 = temp. costante, 3 = temp. in funzione delle condizioni climatiche esterne)"
+0x7751,0;,"// inserimento pompa in funzione della richiesta di calore (0 = sempre, 1 e 2 = solo con bruciatore in funzione (vedi manuale))"
+0x7752,0;,// presenza sensore di mandata per equilibratore idraulico
+0x7753,1;,// funzione allacciamento 28 del completamento interno (vedi manuale)
+0x7754,4;255;255;255;255;255;255;255;,"// (tipo unità controllo solare: 0 = non presente, 1 = vitosolic 100, 2 = vitosolic 200, 3... 4... [300])"
+0x776E,50;255;255;255;255;255;255;255;,"// correzione temperatura esterna (50 = senza, 0-99 = -/+ 5K a step di 0.1K)"
+0x7776,0;,// presenza modulo comunicazione LON
+0x7777,1;,// numero utenza LON
+0x7778,1;,
+0x7779,1;255;,"// byte 1: con modulo LON, flag stazione manager guasti"
+0x777B,1;255;,"// byte 1: con modulo LON, flag trasmissione ora esatta"
+0x777D,0;,
+0x777E,0;,
+0x777F,1;,"// 1 = casa monofamiliare, 0 = casa plurifamiliare"
+0x7780,6;,"// ritardo segnalazione guasto (step di 5s, 0 = immediato)"
+0x7781,1;,"// tipo commutazione ora legale/solare (0 = manuale, 1 = automatica, 2 = ricevitore segnale orario, 3 = ricezione tramite LON)"
+0x7782,0;,"// tipo gas (0 = metano, 1 = liquido)"
+0x7783,0;,
+0x7784,0;,
+0x7785,0;,
+0x7786,0;,// (da manuale dovrebbe essere 200... non modificare...)
+0x7787,10;,"// (non modificare, da manuale) N.B. sospetto che 200 e 10 siano le potenzialità max e min x2 (100% e 5%) che la regolazione permette di impostare..."
+0x7788,0;,"// unità di misura temperatura (0 = celsius, 1 = fahrenheit)"
+0x7789,166;,
+0x778A,175;,"// (non modificare, da manuale), impostando a 176 si hanno accesso dall'unità di controllo a codici non relativi al modello di caldaia"
+0x778B,0;,
+0x778C,1;,
+0x778D,20;,
+0x778E,0;,
+0x778F,0;,"// tipologia blocco dispositivi di regolazione (0 = nessun blocco, 1 = blocco totale, 2 = solo impostazioni base comandabili)"
+0x7790,80;255;255;255;,
+0x7794,0;,
+0x7795,0;255;,
+0x7797,0;,
+0x7798,1;,
+0x7799,0;,
+0x779A,0;,
+0x779B,70;,
+0x779C,20;,
+0x779D,0;,
+0x779E,0;,
+0x779F,10;255;255;255;255;255;255;255;,
+0x7900,200;120;255;108;255;255;255;255;,
+0x8666,4;255;255;255;255;255;255;255;,
+0x8682,3;,
+0x8683,5;,
+0x8684,7;,
+0x8685,10;,
+0x8686,5;,
+0x8687,7;,
+0x8688,124;170;152;1;255;255;,"// (contatore di tempo... dall'ultimo service? dalla data di prima accensione??? - curioso, dopo riavvio, tempo leggermente inferiore anzichè superiore...)"
+0x868E,4;255;,
+0x8690,255;255;255;255;255;255;255;255;,
+0x8832,30;,// max potenza riscaldamento (p.s. valori serie 0x88xx dovrebbero essere i settaggi di caldaia)
+0x8833,255;,
+0x8834,255;255;255;255;255;255;255;255;,
+0x8850,0;,
+0x8851,2;,
+0x8852,62;,
+0x8853,2;,
+0x8854,65;,
+0x8855,30;,
+0x8856,65;,
+0x8857,30;,
+0x8858,74;,
+0x8859,20;,
+0x885A,57;,
+0x885B,10;,
+0x885C,100;,
+0x885D,81;255;,
+0x885F,20;,
+0x8860,16;,
+0x8861,8;,
+0x8862,30;,
+0x8863,4;,
+0x8864,5;,
+0x8865,4;,
+0x8866,30;,
+0x8867,20;,
+0x8868,0;,
+0x8869,0;,
+0x886A,0;,
+0x886B,0;,
+0x886C,0;,
+0x886D,0;,
+0x886E,0;,
+0x886F,0;,
+0x8870,5;,
+0x8871,5;,
+0x8872,20;,
+0x8873,24;,
+0x8874,81;,
+0x8875,40;,
+0x8876,60;,
+0x8877,0;,
+0x8878,0;,
+0x8879,0;,
+0x887A,0;,
+0x887B,45;,
+0x887C,55;255;255;255;,
+0x8880,4;,
+0x8881,25;,
+0x8882,30;,
+0x8883,40;,
+0x8884,55;,
+0x8885,0;,
+0x8886,3;,
+0x8887,8;,
+0x8888,0;,
+0x8889,82;,
+0x888A,4;,
+0x888B,8;,
+0x888C,18;,
+0x888D,0;,
+0x888E,0;,
+0x888F,61;255;,
+0x8891,20;26;33;42;51;61;70;80;,
+0x88A0,74;50;36;240;74;50;0;0;,
+0x88D0,65;,
+0x88D1,30;,
+0x88D2,0;,
+0x88D3,1;,
+0x88D4,1;,
+0x88D5,0;,
+0x88D6,1;,
+0x88D7,1;,
+0x88D8,2;,
+0x88D9,4;,
+0x88DA,1;,
+0x88DB,1;,
+0x88DC,1;,
+0x88DD,0;,
+0x88DE,0;255;255;255;255;255;255;255;,
+0xA000,0;0;0;0;0;0;0;0;,
+0xA009,0;0;0;0;0;0;,
+0xA00F,0;0;,
+0xA011,0;0;0;0;0;0;0;,
+0xA018,0;0;0;0;,
+0xA01C,0;0;0;0;,
+0xA020,0;0;0;0;255;255;255;255;,
+0xA03D,0;0;0;0;0;0;0;255;,
+0xA100,88;2;,
+0xA102,0;,
+0xA103,0;0;0;0;0;0;0;,
+0xA10A,0;0;0;0;0;0;0;0;,
+0xA129,192;8;,// temperatura esterna (?) / 100
+0xA12B,222;7;10;20;13;8;18;,// data e ora (2 byte YYYY;MM;DD;HH;NN;SS)
+0xA132,0;0;0;0;0;0;0;0;,"// da byte 17, data e ora come 0xA12B"
+0xA14F,192;8;255;,// temperatura esterna (???) / 100
+0xA152,4;0;255;255;255;255;255;255;,
+0xA300,0;255;,
+0xA302,255;,// (con risc. acceso ho 1)
+0xA303,0;0;,// set temp caldaia / 100 (solo se accesa? con bruciatore spento valore ancora attivo...)
+0xA305,0;0;,// potenza bruciatore / 2 ( <> 0xA38F !!!) (secondo byte = status?)
+0xA307,244;1;,// set temp caldaia / 100 (?)
+0xA309,132;13;,// temperatura caldaia / 100 (?)
+0xA30B,0;0;0;166;2;2;60;0;,// byte 4-5 ore funzionamento bruciatore (byte 3 vale 80 con riscaldamento acceso)
+0xA340,0;0;0;0;255;255;,// (byte 3 vale 80 con riscaldamento acceso)
+0xA346,0;0;0;0;0;0;0;0;,// byte 1-2 set temp caldaia / 100 (?)
+0xA380,0;255;,
+0xA382,255;,
+0xA383,0;0;,
+0xA385,0;0;0;0;0;0;0;0;,
+0xA38F,0;0;,"// bruciatore: byte 1 - potenza / 2, byte 2 - status"
+0xA391,244;1;,// set temp caldaia / 100 (?)
+0xA393,132;13;,// temperatura caldaia / 100 (?)
+0xA395,0;0;0;0;255;255;,
+0xA39B,0;0;0;0;255;255;255;255;,
+0xA3C0,136;19;,
+0xA3C2,255;,
+0xA3C3,180;10;,// temperatura stoccaggio 1 (acqua calda nello scambiatore?) / 100
+0xA3C5,244;1;255;255;255;255;255;255;,
+0xA400,255;,
+0xA401,208;7;,
+0xA403,208;7;,
+0xA405,0;,
+0xA406,0;0;255;255;255;255;255;255;,
+0xA440,255;,
+0xA441,208;7;,
+0xA443,208;7;,
+0xA445,0;,
+0xA446,44;1;255;255;255;255;255;255;,
+0xA480,255;,
+0xA481,208;7;,
+0xA483,208;7;,
+0xA485,0;,
+0xA486,0;0;255;255;255;255;255;255;,
+0xAF00,0;0;,
+0xAF02,0;0;255;255;255;255;255;255;,
+0xAF80,0;255;255;255;255;255;255;255;,
+0xC000,53;49;55;49;54;55;57;,
+0xC007,57;57;57;57;57;57;57;,
+0xC00E,57;57;57;57;57;57;57;,
+0xC015,57;57;57;57;57;57;57;,
+0xC01C,57;57;57;57;57;57;57;,
+0xC023,57;57;57;57;57;57;57;,
+0xC02A,57;57;57;57;57;57;57;255;,
+0xC100,255;255;255;255;255;255;255;255;,
+0xC110,255;255;255;255;255;255;255;255;,
+0xC120,255;255;255;255;255;255;255;255;,
+0xC130,255;255;255;255;255;255;255;255;,
+0xC140,255;255;255;255;255;255;255;255;,
+0xC150,255;255;255;255;255;255;255;255;,
+0xC160,255;255;255;255;255;255;255;255;,
+0xCF00,8;,// settaggi unità controllo solare: dT inserimento pompa solare rispetto temperatura bollitore
+0xCF01,4;,// dT spegnimento pompa solare rispetto temperatura bollitore
+0xCF02,0;,"// 0 - pompa solare a velocità fissa, 1 - pompa solare a velocità variabile a pacchetti d'onda, 2 - pompa solare a velocità variabile PWM"
+0xCF03,10;,// dT richiesto collettore - bollitore per pompa solare a velocità variabile
+0xCF04,4;,// amplificazione regolazione giri pompa %/K
+0xCF05,10;,// numero giri pompa min %
+0xCF06,75;,// numero giri pompa max %
+0xCF07,0;,"// funzione intervallo accensione pompa solare per rilevamento temperatura collettori (0 - non attiva, 1 - attiva)"
+0xCF08,90;,// temperatura max bollitore (pompa solare viene spenta oltre questa temperatura)
+0xCF09,130;,// temperatura max collettori (pompa solare viene spenta oltre questa temperatura)
+0xCF0A,5;,// dT temperatura reale bollitore - temperatura max bollitore sotto la quale la velocità della pompa viene ridotta
+0xCF0B,0;,"// funzione protezione antigelo circuito solare (0 - non attiva, 1 - attiva)"
+0xCF0C,1;,"// funzione controllo dT per rilevamento problemi portata volumetrica (0 - non attiva, 1 - attiva)"
+0xCF0D,1;,"// funzione controllo ricircolo notturno per rilevamento portata volumetrica non prevista (0 - non attiva, 1 - attiva)"
+0xCF0E,1;,"// determinazione resa impianto solare (0 - disattivata, 1 - con fluido Viessmann, 2 - con acqua (non usare!))"
+0xCF0F,70;,// portata volumetrica max impianto solare in dl/min
+0xCF10,0;,"// regolazione temperatura finale (vedere indirizzo 11 [CF11]) (0 - non attiva, 1 - attiva)"
+0xCF11,50;,// temperatura finale bollitore solare (vedere anche funzione estesa indirizzo 20 [CF13] = 8)
+0xCF12,40;,"// temperatura minima collettore per inserimento pompa solare (0 - nessuna temperatura minima, 1-90 - temperatura impostata)"
+0xCF13,8;,// ATTN: ind. 20 - funzione estesa (non modificare!)
+0xCF14,0;,// ATTN: ind. 21
+0xCF15,8;,// ATTN: ind. 22 - dT inserimento pompa carico bollitore rispetto temperatura fluido termovettore
+0xCF16,4;,// ATTN: ind. 23 - dT spegnimento pompa carico bollitore rispetto temperatura fluido termovettore
+0xCF17,40;,
+0xCF18,50;,
+0xCF19,1;,
+0xCF1A,15;,
+0xCF1B,3;,
+0xCF1C,255;,
+0xCF1D,255;,
+0xCF1E,255;,
+0xCF1F,255;,
+0xCF20,255;,
+0xCF21,255;,
+0xCF22,255;,
+0xCF23,255;,
+0xCF24,255;,
+0xCF25,255;,
+0xCF26,255;,
+0xCF27,255;,
+0xCF28,255;,
+0xCF29,255;,
+0xCF2A,255;,
+0xCF2B,255;,
+0xCF2C,255;,
+0xCF2D,255;,
+0xCF2E,255;,
+0xCF2F,255;,
+0xCF30,83;1;0;0;89;70;0;0;,// byte 1-2: W energia solare prodotti nel giorno ---- o secondi funzionamento pompa carico bollitore???
+0xCF50,249;9;0;0;22;72;0;0;,// byte 1-2: inserimenti pompa solare (?)
+0xCF70,11;5;0;0;114;79;15;0;,// (byte 5-6: secondi funzionamento pompa solare?)
+0xCF90,1;8;0;0;0;130;57;1;,"// byte 3: pompa carico bollitore solare, byte 7-8: temperatura mandata solare, byte 13-16: secondi funzionamento pompa carico bollitore solare, byte 17-20: numero inserimenti pompa carico bollitore solare"
+0xCFB0,0;0;0;170;0;0;0;0;,"// byte 25-26: deltaT Collettore - Accumulo Basso (più o meno / 400...), (byte 9-12: secondi funzionamento di qualcosa..., byte 21 e 23: pompa solare? byte 22-23: temperatura? continua ad oscillare..., byte 19 e 20: 1;144 normale, 0;128 in service...)"
+0xCFD0,30;251;4;1;0;0;60;0;,"// (byte 7... contatore riavvii?!? vedi 0x7501 (delta di 5... hmm, no, ora delta è 6...) - mah, in teoria centra sempre con solare, tutta codifica CF penso...)"
+0xF000,55;52;50;57;54;50;56;51;,
+0xF010,55;52;53;55;50;48;52;51;,
+0xF020,0;0;,
+0xF022,0;0;,
+0xF024,0;0;,
+0xF026,0;0;,
+0xF028,0;0;,
+0xF02A,0;0;,
+0xF02C,0;0;,
+0xF02E,0;0;255;255;255;255;255;255;,
+0xFF01,0;255;255;255;255;255;255;255;,
+0xFF20,0;255;255;255;255;255;255;255;,

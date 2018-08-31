@@ -12,4 +12,3 @@ vitalk: vitalk.c vito_io.c vito_io.h vito_parameter.c vito_parameter.h telnet.c 
 
 clean:
 	rm -f vitalk version.c
-
